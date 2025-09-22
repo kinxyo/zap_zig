@@ -23,7 +23,7 @@ pub fn main() void {
     const method_arg: []const u8 = iters.next().?;
     const path_arg: []const u8 = iters.next().?;
 
-    parser.parseDefault(allocator, method_arg, path_arg) catch |err| {
+    parser.parseArgs(allocator, method_arg, path_arg) catch |err| {
         terminal.err("Couldn't run the request: {any}", .{err});
     };
 }

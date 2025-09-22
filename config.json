@@ -1,0 +1,22 @@
+{
+  "name": "world",
+  "port": 8000,
+  "token": "",
+  "apis": [
+    {
+      "path": "GET /",
+      "protected": false
+    },
+    {
+      "path": "GET /api/users",
+      "protected": false
+    },
+    {
+      "path": "POST /api/users",
+      "protected": false,
+       "body": {
+         "message": "Hello World!"
+      }
+    }
+  ]
+}
