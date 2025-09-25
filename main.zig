@@ -1,11 +1,12 @@
 const std = @import("std");
 const app = @import("app/mod.zig");
+const Args = @import("app/args.zig").Args;
 
-const terminal = app.terminal;
+const Terminal = app.terminal;
 const parser = app.parser;
 
 pub fn main() void {
-    terminal.clear();
+    Terminal.clear();
 
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
@@ -13,17 +14,16 @@ pub fn main() void {
     const allocator = arena.allocator();
 
     _ = std.process.argsAlloc(allocator) catch |err| {
-        terminal.fatal("Program ran out of memory: {any}", .{err});
+        Terminal.fatal("Program ran out of memory: {any}", .{err});
         return;
     };
 
     var iters = std.process.args();
     _ = iters.skip();
 
-    const method_arg: []const u8 = iters.next().?;
-    const path_arg: []const u8 = iters.next().?;
+    const args = Args.init(&iters);
 
-    parser.parseArgs(allocator, method_arg, path_arg) catch |err| {
-        terminal.err("Couldn't run the request: {any}", .{err});
+    parser.parseArgs(allocator, args) catch |err| {
+        Terminal.err("Couldn't run the request: {any}", .{err});
     };
 }

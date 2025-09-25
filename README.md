@@ -1,4 +1,4 @@
-# Unnamed Project
+# Zap
 
 A TUI based `curl` replacement in **Zig** that also extends its usecase for API testing.
 
