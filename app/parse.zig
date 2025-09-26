@@ -15,10 +15,7 @@ const Network = @import("network.zig");
 const Args = @import("args.zig").Args;
 
 pub fn parseArgs(allocator: std.mem.Allocator, args: Args) !void {
-    // const PORT: u16 = Json.parseQuickConfig() orelse 8080;
-    const PORT: u16 = 8080;
-
-    std.debug.print("\n{d}\n", .{PORT});
+    const PORT: u16 = Json.parseQuickConfig() orelse 8000;
 
     const method = try args.parseMethod(allocator);
     const path = try args.parsePath(allocator, PORT);

@@ -50,11 +50,8 @@ fn curl_no_body(allocator: std.mem.Allocator, method: Method, headers: []const H
         .location = .{ .uri = url },
         .extra_headers = headers,
         .payload = payload,
-        // Don't provide response_writer - let it handle response internally
     });
 
     Terminal.print("Status: {any}\n", .{response.status});
     Terminal.flush();
-    // The body is discarded when no response_writer is provided
-    // If you need the response body, we'll need a different approach
 }

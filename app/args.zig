@@ -11,16 +11,12 @@ pub const Args = struct {
 
         switch (is_first_arg_method) {
             false => {
-                std.debug.print("hitting true", .{});
-
                 return Args{
                     .method = "GET",
                     .path = first_arg,
                 };
             },
             true => {
-                std.debug.print("hitting false", .{});
-
                 const second_arg: []const u8 = iters.next() orelse "/"; // log warning
 
                 return Args{
@@ -52,11 +48,15 @@ pub const Args = struct {
     }
 
     pub fn parsePath(self: *const Args, allocator: std.mem.Allocator, port: u16) !std.Uri {
-        const trimmed = std.mem.trim(u8, self.path, "\t\n\r");
+        const trimmed = std.mem.trim(u8, self.path, " \t\n\r");
 
-        const url = try std.fmt.allocPrint(allocator, "http://localhost:{d}{s}", .{ port, trimmed });
-
-        std.debug.print("URL: {s}\n", .{url});
+        const url = switch (trimmed[0]) {
+            '/' => try std.fmt.allocPrint(allocator, "http://localhost:{d}{s}", .{ port, trimmed }),
+            else => switch (std.mem.startsWith(u8, trimmed, "https://")) {
+                true => trimmed,
+                false => try std.fmt.allocPrint(allocator, "http://{s}", .{trimmed}),
+            },
+        };
 
         return try std.Uri.parse(url);
     }
