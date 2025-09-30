@@ -20,12 +20,11 @@ pub fn clear() void {
 
 pub fn print(comptime fmt: []const u8, args: anytype) void {
     out_writer.print(fmt, args) catch unreachable;
-    // not auto flushing for performance
 }
 
 pub fn err(comptime fmt: []const u8, args: anytype) void {
     err_writer.print(fmt, args) catch unreachable;
-    err_writer.flush() catch unreachable; // Always flush errors immediately
+    err_writer.flush() catch unreachable;
 }
 
 pub fn fatal(comptime fmt: []const u8, args: anytype) void {
